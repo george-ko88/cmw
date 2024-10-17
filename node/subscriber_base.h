@@ -28,7 +28,7 @@ public:
                 : role_attr_(role_attr) , init_(false) {}
     virtual ~SubscriberBase() {}
 
-    virtual bool Init() = 0;
+    virtual bool Init(const OptionalMode& mode) = 0;
 
     virtual void Shutdown() = 0;
 

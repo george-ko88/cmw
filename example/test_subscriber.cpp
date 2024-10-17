@@ -8,7 +8,7 @@ using namespace hnu::cmw;
 int main()
 {
     config::RoleAttributes role_attr;
-
+    OptionalMode role_mode = OptionalMode::SHM;
     role_attr.channel_name = "/chatter0";
     role_attr.node_name = "subscriber";
     role_attr.channel_id =common::GlobalData::RegisterChannel("/chatter0");
@@ -21,7 +21,7 @@ int main()
 
     std::boolalpha;
 
-    std::cout<<"Init publisher " << subscriber.Init() << std::endl;
+    std::cout<<"Init publisher " << subscriber.Init(role_mode) << std::endl;
 
     while (1)
     {

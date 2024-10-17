@@ -19,7 +19,7 @@ public:
     virtual ~PublisherBase() {}
 
     //初始化Publisher
-    virtual bool Init() = 0;
+    virtual bool Init(const OptionalMode& mode) = 0;
     //关闭 Publisher
     virtual void Shutdown() = 0;
     //判断是否有Subscriber订阅了此Publisher

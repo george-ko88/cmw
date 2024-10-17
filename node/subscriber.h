@@ -30,7 +30,7 @@ public:
     explicit Subscriber(const RoleAttributes& role_attr,
                         const CallbackFunc<MessageT>& subscriber_func = nullptr);
     virtual ~Subscriber();
-    bool Init() override;
+    bool Init(const OptionalMode& mode) override;
     void Shutdown() override;
    // bool HasPublisher() override;
    // bool GetPublishers(std::vector<RoleAttributes>* publishers)  override;
@@ -58,7 +58,7 @@ Subscriber<MessageT>::~Subscriber(){
 }
 
 template <typename MessageT>
-bool Subscriber<MessageT>::Init(){
+bool Subscriber<MessageT>::Init(const OptionalMode& mode){
     if(init_.exchange(true)){
         return true;
     }
@@ -69,7 +69,7 @@ bool Subscriber<MessageT>::Init(){
                         subscriber_func_(message);
                        };
 
-        receiver_ = transport::Transport::Instance()->CreateReceiver<MessageT>(role_attr_,func);
+        receiver_ = transport::Transport::Instance()->CreateReceiver<MessageT>(role_attr_,func,mode);
     }
 
     channel_manager_ = discovery::TopologyManager::Instance()->channel_manager();
