@@ -2,8 +2,8 @@
 #指定编译器
 CC = g++
 
-#编译选项
-CFLAGS = -fPIC -shared -std=c++14 
+#编译选项 -fPIC -shared
+CFLAGS =  -std=c++14 
 $(warning CFLAGS is $(CFLAGS))
 
 #头文件路径
@@ -36,10 +36,10 @@ ThirdPartyLib += -lrt
 SHARED_LIB = libcmw_v3.so
 
 # 生成动态库的规则
-.PHONY: libcmw
-libcmw: $(SHARED_LIB)
-$(SHARED_LIB): $(OBJS)
-	$(CC) $(INCLUDE) $(CFLAGS) -shared -o $@ $^ -L$(ThirdPartyLibPath) $(ThirdPartyLib)
+# .PHONY: libcmw
+# libcmw: $(SHARED_LIB)
+# $(SHARED_LIB): $(OBJS)
+# 	$(CC) $(INCLUDE) $(CFLAGS) -shared -o $@ $^ -L$(ThirdPartyLibPath) $(ThirdPartyLib)
 
 test_writer: $(SRCS) test_writer.cpp
 	$(CC) $(INCLUDE) -o $@.out $^   -L$(ThirdPartyLibPath) $(ThirdPartyLib) -Wl,-rpath=$(ThirdPartyLibPath) 

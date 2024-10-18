@@ -13,7 +13,8 @@
 #include <fstream>
 #include <sstream>
 #include <cmw/serialize/serializable.h>
-#include <chrono>
+#include <cmw/common/log.h>
+#include <cmw/time/time.h>
 
 using namespace std;
 using std::ifstream;
@@ -196,19 +197,22 @@ void DataStream::write(const std::vector<T> & value)
     write((char *)&type, sizeof(char));
     int len = value.size();
     write(len);
+
+    uint64_t start = Time::Now().ToMicrosecond();
     // for (int i = 0; i < len; i++)
     // {
     //     write(value[i]);
     // }
-    const char* char_ptr = value.data();
+    const T* ptr = value.data();
+    const char* char_ptr = reinterpret_cast<const char*>(ptr);
     write(char_ptr, value.size());
 
     // 记录结束时间
-    auto end = std::chrono::high_resolution_clock::now();
+    uint64_t end = Time::Now().ToMicrosecond();
 
     // 计算耗时（以微秒为单位）
-    std::chrono::duration<double, std::milli> elapsed = end - start;
-    std::cout << "代码执行时间: " << elapsed.count() << " 微秒" << std::endl;
+    uint64_t elapsed  = end - start;
+    AINFO << "代码执行时间: " << elapsed << " 微秒" ;
 }
 
 template <typename T>

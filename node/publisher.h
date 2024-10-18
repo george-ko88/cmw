@@ -22,7 +22,7 @@ public:
     virtual ~Publisher();
 
 
-    bool Init(const OptionalMode& mode) override;
+    bool Init() override;
 
     void Shutdown() override;
 
@@ -56,13 +56,13 @@ Publisher<MessageT>::~Publisher(){
 }
 
 template<typename MessageT>
-bool Publisher<MessageT>::Init(const OptionalMode& mode){
+bool Publisher<MessageT>::Init(){
     {
         std::lock_guard<std::mutex> lg(lock_);
         if(init_){
             return true;
         }
-        transmitter_ = transport::Transport::Instance()->CreateTransmitter<MessageT>(role_attr_,mode);
+        transmitter_ = transport::Transport::Instance()->CreateTransmitter<MessageT>(role_attr_);
         if(transmitter_ == nullptr){
             return false;
         }
